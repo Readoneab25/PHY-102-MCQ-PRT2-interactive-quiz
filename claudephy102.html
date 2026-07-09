@@ -1,0 +1,588 @@
+
+
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PHY 102 Interactive Quiz</title>
+  <style>
+    :root{--bg:#0f172a;--card:#111827;--accent:#06b6d4;--muted:#94a3b8;--white:#e6eef6}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background: #1E1B4B;color:#FFFF;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:920px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;gap:16px}
+    h1{margin:0;}
+    .meta{color:var(--muted);font-size:13px}
+    .card{background: #312E81;padding:20px;border-radius:12px;margin-top:18px;box-shadow:0 6px 24px rgba(2,6,23,0.6)}
+    .question{font-size:18px;margin-bottom:12px}
+    .choices{display:flex;flex-direction:column;gap:8px}
+    .choice{background: #4338CA;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+    .choice:hover{transform:translateY(-2px)}
+    .choice.selected{outline:3px solid rgba(6,182,212,0.12);background: #22D3EE;}
+    .controls{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+    button{background:#C084FC;color:#042029;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white)}
+    .progress{height:10px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#22D3EE);width:0%}
+    .footer{margin-top:16px;color:var(--muted);font-size:13px}
+    .result{padding:18px;border-radius:10px;background:linear-gradient(180deg, rgba(2,6,23,0.85), rgba(2,6,23,0.6));}
+    .review{margin-top:12px}
+    .q-review{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;margin-bottom:10px}
+    @media(max-width:560px){.wrap{padding:12px}h1{font-size:18px}.question{font-size:16px}}
+    .timer{ 
+    color:#FBBF24;
+    
+    }
+    .span{
+        display:flex;
+        font-size: 25px ;
+        float:right;
+    }
+    .h1{
+        font-size:25px
+    }
+    
+    
+    
+    body.light-mode{
+  background:#f1f5f9;
+  color:#0f172a;
+}
+body.light-mode .card{background:#ffffff;}
+body.light-mode .choice{background:#e2e8f0;color:#0f172a;}
+body.light-mode .choice.selected{background:#3b82f6;color:white;}
+body.light-mode button{background:#22c55e;color:white;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 class="h1">PHY 102 Interactive MCQs Quiz PRT1</h1>
+        <div class="meta">56 multiple-choice questions </div>
+ 
+                 <span class="span">Timer: <div class="timer" id="countdown-timer">30:00</div></span>
+      </div>
+    </header><div class="card" id="quiz-card">
+  <div class="progress" aria-hidden><i id="progress-bar"></i></div>
+  <div style="height:14px"></div>
+  <div id="q-area">
+    </div>
+
+  <div class="controls">
+    <div style="display:flex;gap:8px">
+      <button id="prevBtn" class="secondary">Previous</button>
+      <button id="nextBtn">Next</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button id="submitBtn" class="secondary">Submit</button>
+      <div style="color:var(--muted);font-size:13px">Q <span id="q-num">1</span> / <span id="q-total">10</span></div>
+    </div>
+  </div>
+
+  <div class="footer">Tip: Select an answer and press Next. You can review answers after submission.Quiz will submit automatically once timer turns zero.</div>
+</div>
+
+<div id="result-area" style="display:none" class="card">
+  <div class="result">
+    <h2 id="score-title"></h2>
+    <p id="score-summary" class="meta"></p>
+  </div>
+  <div class="review" id="review-list"></div>
+  <div style="display:flex;gap:8px;margin-top:12px">
+    <button id="retryBtn">Retake Quiz</button>
+    <button id="exportBtn" class="secondary">Export Results</button>
+  </div>
+</div>
+<br><br><br>
+  <a href="https://wa.me/+2349036795652"><button>Contact The Developer</button></a>
+    <a href="https://wa.me/+2349036795652"><button>Support Project</button></a><br><br>
+   <button onclick="shareOnWhatsApp()">Share Quiz link via WhatsApp</button>
+  <h2>Designed by Sanctum</h2>
+  </div>
+   <script>
+       
+       
+       
+       
+
+
+
+
+
+const QUESTIONS = [
+
+  // ================= LECTURE 1: ELECTRIC CHARGE AND FIELD =================
+
+  {
+    q: "Two point charges, q1 = +25 nC and q2 = -75 nC, are separated by a distance r = 3 cm. Using F = kq1q2/r² (k = 9×10^9 Nm²/C²), find the magnitude of the electric force between them.",
+    c: ["0.01875 N", "0.1875 N", "1.875 N", "0.001875 N"],
+    a: 0
+  },
+  {
+    q: "Two point charges are located on the x-axis: q1 = 1 nC at x = +2 cm, and q2 = -3 nC at x = +4 cm. Calculate the magnitude of the force exerted by q1 alone on a charge q3 = 5 nC at x = 0 (r = 2 cm), using k = 9×10^9 Nm²/C².",
+    c: ["1.125 × 10⁻⁴ N", "8.4375 × 10⁻⁵ N", "2.25 × 10⁻⁴ N", "5.6 × 10⁻⁵ N"],
+    a: 0
+  },
+  {
+    q: "Using the same charge arrangement (q1 = 1 nC at x = +2 cm, q2 = -3 nC at x = +4 cm, q3 = 5 nC at x = 0), calculate the magnitude of the force exerted by q2 alone on q3 (r = 4 cm), using k = 9×10^9 Nm²/C².",
+    c: ["1.125 × 10⁻⁴ N", "8.4375 × 10⁻⁵ N", "6.75 × 10⁻⁵ N", "2.25 × 10⁻⁴ N"],
+    a: 1
+  },
+  {
+    q: "What is the magnitude of the electric field E at a field point 2.0 m from a point charge q = 4.0 nC? Use E = kq/r² with k = 9×10^9 Nm²/C².",
+    c: ["4.5 N/C", "9.0 N/C", "18.0 N/C", "2.25 N/C"],
+    a: 1
+  },
+  {
+    q: "A uniform electric field E = 1.00 × 10^4 N/C exists between two parallel plates. An electron (charge e = 1.60×10⁻¹⁹ C, mass m = 9.11×10⁻³¹ kg) is released from rest at the upper plate. Using a = eE/m, calculate its acceleration.",
+    c: ["1.76 × 10^14 m/s²", "1.76 × 10^15 m/s²", "1.76 × 10^13 m/s²", "1.76 × 10^16 m/s²"],
+    a: 1
+  },
+  {
+    q: "For the electron accelerating between the plates (a ≈ 1.76×10^15 m/s², travelling d = 1.0 cm = 0.01 m from rest), use v² = 2ad to calculate the speed acquired by the electron.",
+    c: ["5.93 × 10^5 m/s", "5.93 × 10^6 m/s", "5.93 × 10^7 m/s", "5.93 × 10^4 m/s"],
+    a: 1
+  },
+  {
+    q: "Using the electron's final speed (v ≈ 5.93×10^6 m/s) and mass m = 9.11×10⁻³¹ kg, calculate the kinetic energy (KE = ½mv²) it acquires while travelling 1.0 cm to the lower plate.",
+    c: ["1.6 × 10⁻¹⁷ J", "1.6 × 10⁻¹⁸ J", "1.6 × 10⁻¹⁶ J", "3.2 × 10⁻¹⁷ J"],
+    a: 0
+  },
+  {
+    q: "Using a ≈ 1.76×10^15 m/s² and v ≈ 5.93×10^6 m/s, calculate the time taken (t = v/a) for the electron to travel the 1.0 cm distance to the lower plate.",
+    c: ["3.37 × 10⁻⁹ s", "3.37 × 10⁻⁸ s", "3.37 × 10⁻¹⁰ s", "3.37 × 10⁻⁷ s"],
+    a: 0
+  },
+
+  // ================= NOTES-1: GAUSS'S LAW, CAPACITANCE, ELECTRIC POTENTIAL =================
+
+  {
+    q: "In a parallel plate arrangement, the potential difference between the plates is 40 V and the plate separation is 10 mm (0.010 m). Using E = V/d, calculate the magnitude of the electric field between the plates.",
+    c: ["400 N/C", "4000 N/C", "40 N/C", "40,000 N/C"],
+    a: 1
+  },
+  {
+    q: "The potential difference between two metal plates is 40 V. How much work must be done to carry a +3.0 C charge from the low-potential plate B to the high-potential plate A, using W = qV?",
+    c: ["12 J", "120 J", "13.3 J", "1.2 J"],
+    a: 1
+  },
+  {
+    q: "A 12.0 V motorcycle battery can move 5000 C of charge. Using E = QV, how much energy does it deliver?",
+    c: ["6000 J", "60,000 J", "600 J", "417 J"],
+    a: 1
+  },
+  {
+    q: "A 12.0 V car battery can move 60,000 C of charge. Using E = QV, how much energy does it deliver?",
+    c: ["72,000 J", "720,000 J", "5000 J", "500,000 J"],
+    a: 1
+  },
+  {
+    q: "An electron gun has parallel plates separated by 4.00 cm (0.04 m) and gives electrons 25.0 keV of energy (equivalent to a 25,000 V accelerating potential). Using E = V/d, calculate the electric field strength between the plates.",
+    c: ["6.25 × 10^3 V/m", "6.25 × 10^5 V/m", "1.0 × 10^6 V/m", "2.5 × 10^4 V/m"],
+    a: 1
+  },
+  {
+    q: "Using the electron gun field strength (E ≈ 6.25×10^5 V/m), what force would this field exert on a piece of plastic carrying a 0.500 μC charge, using F = qE?",
+    c: ["0.3125 N", "3.125 N", "0.03125 N", "31.25 N"],
+    a: 0
+  },
+  {
+    q: "What is the voltage 5.00 cm (0.05 m) away from the center of a metal sphere carrying a -3.00 nC static charge? Use V = kQ/r with k = 9×10^9 Nm²/C².",
+    c: ["+540 V", "-540 V", "-270 V", "-5.4 V"],
+    a: 1
+  },
+  {
+    q: "What is the magnitude of a point charge that would create an electric field of 1.00 N/C at a point 1.00 m away? Use E = kq/r² with k = 9×10^9 Nm²/C².",
+    c: ["9.0 × 10⁻⁹ C", "1.11 × 10⁻¹⁰ C", "1.11 × 10⁻⁹ C", "9.0 × 10⁻¹⁰ C"],
+    a: 1
+  },
+
+  // ================= LECTURE 3: CAPACITANCE AND DIELECTRICS =================
+
+  {
+    q: "The parallel plates of a 1.0-F capacitor are 1.0 mm (1.0×10⁻³ m) apart. Using C = ε₀A/d (ε₀ = 8.85×10⁻¹² F/m), calculate the required plate area.",
+    c: ["1.13 × 10^8 m²", "1.13 × 10^7 m²", "8.85 × 10^8 m²", "1.13 × 10^6 m²"],
+    a: 0
+  },
+  {
+    q: "The potential difference between two large metal plates is 120 V and the plate separation is 3.0 mm (0.003 m). Using E = V/d, find the electric field between the plates.",
+    c: ["4000 N/C", "40,000 N/C", "400 N/C", "36,000 N/C"],
+    a: 1
+  },
+  {
+    q: "A capacitor with dielectric constant K = 2.0 (wax) has plates of area 80 cm² (80×10⁻⁴ m²) separated by 0.5 cm (0.5×10⁻² m). Using C = Kε₀A/d, calculate the capacitance.",
+    c: ["1.42 × 10⁻¹¹ F", "2.83 × 10⁻¹¹ F", "2.83 × 10⁻¹² F", "5.66 × 10⁻¹¹ F"],
+    a: 1
+  },
+
+  // ================= DC CIRCUITS: CURRENT, RESISTANCE, OHM'S LAW, POWER =================
+
+  {
+    q: "A copper wire has length L = 2 m, radius r = 1 mm (1×10⁻³ m), and resistivity ρ = 1.7×10⁻⁸ Ωm. Using R = ρL/A where A = πr², calculate its resistance.",
+    c: ["0.0108 Ω", "0.108 Ω", "0.0432 Ω", "0.00108 Ω"],
+    a: 0
+  },
+  {
+    q: "For the same copper wire (R ≈ 0.0108 Ω), if the radius is halved, the cross-sectional area becomes A/4. What is the new resistance?",
+    c: ["0.0108 Ω", "0.0216 Ω", "0.0432 Ω", "0.0864 Ω"],
+    a: 2
+  },
+  {
+    q: "A heating element operates at V = 40 V and dissipates P = 200 W. Using P = IV, calculate the current through the element.",
+    c: ["4 A", "5 A", "8 A", "10 A"],
+    a: 1
+  },
+  {
+    q: "For the heating element (V = 40 V, I = 5 A), calculate its resistance using R = V/I.",
+    c: ["6 Ω", "8 Ω", "10 Ω", "40 Ω"],
+    a: 1
+  },
+  {
+    q: "An electric device draws I = 3.4 A from a V = 14 V battery for 20 minutes (1200 s). Using P = IV, calculate the power consumed.",
+    c: ["37.6 W", "47.6 W", "57.6 W", "27.6 W"],
+    a: 1
+  },
+  {
+    q: "For the device drawing 3.4 A at 14 V for 1200 s (P = 47.6 W), calculate the total energy used in kWh (1 kWh = 3.6×10^6 J).",
+    c: ["0.008 kWh", "0.016 kWh", "0.032 kWh", "0.057 kWh"],
+    a: 1
+  },
+  {
+    q: "A resistor connected across a battery carries a current of 2 A when the voltage across it is 10 V. Using R = V/I, find the resistance of the resistor.",
+    c: ["2 Ω", "5 Ω", "10 Ω", "20 Ω"],
+    a: 1
+  },
+  {
+    q: "The same resistor (R = 5 Ω) is later connected to another battery so that the current becomes 4 A. Using V = IR, determine the new voltage.",
+    c: ["10 V", "15 V", "20 V", "25 V"],
+    a: 2
+  },
+  {
+    q: "Three resistors R1 = 1.00 Ω, R2 = 2.00 Ω, and R3 = 2.00 Ω are connected in parallel across a V = 3.00 V source. Using 1/Req = 1/R1 + 1/R2 + 1/R3, calculate the equivalent resistance.",
+    c: ["0.5 Ω", "1.0 Ω", "1.5 Ω", "5.0 Ω"],
+    a: 0
+  },
+  {
+    q: "For the parallel combination (R1=1Ω, R2=2Ω, R3=2Ω, Req = 0.5 Ω) connected to a 3.00 V source, using I = V/Req, find the total current supplied by the source.",
+    c: ["3 A", "4.5 A", "6 A", "1.5 A"],
+    a: 2
+  },
+  {
+    q: "For the same parallel circuit (V = 3.00 V, R1 = 1.00 Ω), calculate the current through R1 using I1 = V/R1.",
+    c: ["1.5 A", "2.0 A", "3.0 A", "0.5 A"],
+    a: 2
+  },
+  {
+    q: "Using P = I²R for the parallel circuit, calculate the total power output of the 3.00 V source across all three resistors (R1=1Ω carrying 3A, R2=R3=2Ω each carrying 1.5A).",
+    c: ["9.0 W", "13.5 W", "18.0 W", "22.5 W"],
+    a: 2
+  },
+  {
+    q: "A battery with terminal voltage 9 V is connected in series with four 20-Ω resistors and one 10-Ω resistor. Using Req = ΣR, calculate the equivalent resistance of the circuit.",
+    c: ["70 Ω", "80 Ω", "90 Ω", "100 Ω"],
+    a: 2
+  },
+  {
+    q: "For the series circuit above (E = 9 V, Req = 90 Ω), using I = E/Req, calculate the current through each resistor.",
+    c: ["0.05 A", "0.1 A", "0.9 A", "9 A"],
+    a: 1
+  },
+  {
+    q: "For the series circuit (I = 0.1 A), using V = IR, calculate the potential drop across each 20-Ω resistor.",
+    c: ["0.5 V", "1.0 V", "2.0 V", "20 V"],
+    a: 2
+  },
+  {
+    q: "For the same series circuit (I = 0.1 A), calculate the potential drop across the 10-Ω resistor.",
+    c: ["0.5 V", "1.0 V", "2.0 V", "10 V"],
+    a: 1
+  },
+  {
+    q: "For the series circuit (E = 9 V, I = 0.1 A), using P = IE, calculate the total power supplied by the battery.",
+    c: ["0.09 W", "0.9 W", "9 W", "90 W"],
+    a: 1
+  },
+  {
+    q: "A copper wire and an aluminum wire have the same length. The resistance of copper is twice that of aluminum. Given ρ_copper = 1.72×10⁻⁸ Ωm and ρ_aluminum = 2.8×10⁻⁸ Ωm, calculate the ratio of cross-sectional areas Aa/Ac.",
+    c: ["1.64", "2.28", "3.26", "4.12"],
+    a: 2
+  },
+  {
+    q: "Using the area ratio Aa/Ac ≈ 3.26 (since A ∝ d²), calculate the ratio of diameters da/dc for the aluminum and copper wires.",
+    c: ["1.30", "1.61", "1.81", "2.00"],
+    a: 2
+  },
+  {
+    q: "Calculate the resistance per meter length of a constantan wire of diameter 0.4 mm (0.4×10⁻³ m) and resistivity ρ = 4.70×10⁻⁵ Ωm, using R/L = ρ/A where A = πr².",
+    c: ["37.4 Ω/m", "374 Ω/m", "3.74 Ω/m", "0.374 Ω/m"],
+    a: 1
+  },
+  {
+    q: "Using the constantan wire's resistance per length (R/L ≈ 374 Ω/m), calculate the length of wire required to make a resistor of resistance 1.5 Ω.",
+    c: ["0.0040 m", "0.040 m", "0.40 m", "4.0 m"],
+    a: 0
+  },
+  {
+    q: "A thermistor has a temperature coefficient α = -0.06 °C⁻¹. Its resistance decreases by 15% relative to its value at normal body temperature T0 = 37.0°C. Using R = R0[1 + α(T - T0)], calculate the patient's temperature.",
+    c: ["38.5 °C", "39.5 °C", "40.5 °C", "41.5 °C"],
+    a: 1
+  },
+  {
+    q: "A wire has a resistance of 21 Ω. It is melted down and reshaped into a new wire three times as long, with the volume kept constant (so the new area = A/3). Using R ∝ L/A, calculate the resistance of the new wire.",
+    c: ["63 Ω", "126 Ω", "189 Ω", "7 Ω"],
+    a: 2
+  },
+  {
+    q: "In a circuit, E = 5.0 V, R1 = 2.0 Ω, R2 = 4.0 Ω, and R3 = 6.0 Ω, with R2 and R3 in parallel and that combination in series with R1. Using 1/Rp = 1/R2 + 1/R3, calculate the parallel combination resistance Rp.",
+    c: ["1.5 Ω", "2.0 Ω", "2.4 Ω", "10 Ω"],
+    a: 2
+  },
+  {
+    q: "For the circuit above (Rp = 2.4 Ω, R1 = 2.0 Ω), calculate the total circuit resistance Rtotal = R1 + Rp.",
+    c: ["4.0 Ω", "4.4 Ω", "6.4 Ω", "2.4 Ω"],
+    a: 1
+  },
+  {
+    q: "Using E = 5.0 V and Rtotal = 4.4 Ω, calculate the total current I supplied by the battery using I = E/Rtotal.",
+    c: ["0.88 A", "1.02 A", "1.14 A", "1.25 A"],
+    a: 2
+  },
+  {
+    q: "Given the total current I ≈ 1.136 A splitting between R2 = 4.0 Ω and R3 = 6.0 Ω, use the current divider rule I3 = I × R2/(R2+R3) to find the ammeter reading (current through R3).",
+    c: ["0.454 A", "0.682 A", "0.568 A", "1.136 A"],
+    a: 0
+  },
+  {
+    q: "In a circuit, R1 = 20 Ω, R2 = 20 Ω, R3 = 30 Ω, R4 = 8 Ω, and E = 12 V, with R2 and R3 in parallel and that combination in series with R1 and R4. Using 1/R23 = 1/R2 + 1/R3, calculate R23.",
+    c: ["10 Ω", "12 Ω", "15 Ω", "50 Ω"],
+    a: 1
+  },
+  {
+    q: "For the same circuit (R1 = 20 Ω, R23 = 12 Ω, R4 = 8 Ω), calculate the total resistance Rtotal = R1 + R23 + R4.",
+    c: ["28 Ω", "36 Ω", "40 Ω", "48 Ω"],
+    a: 2
+  },
+  {
+    q: "Using E = 12 V and Rtotal = 40 Ω, calculate the current through R1 using I = E/Rtotal.",
+    c: ["0.2 A", "0.3 A", "0.4 A", "0.5 A"],
+    a: 1
+  },
+  {
+    q: "Eight cells, each with internal resistance 0.2 Ω and e.m.f. 2.2 V, are connected in series. Calculate the total e.m.f. of the battery formed.",
+    c: ["2.2 V", "8.8 V", "17.6 V", "35.2 V"],
+    a: 2
+  },
+  {
+    q: "For the same eight cells (each 0.2 Ω, 2.2 V) connected in series, calculate the total internal resistance of the battery.",
+    c: ["0.2 Ω", "0.8 Ω", "1.6 Ω", "3.2 Ω"],
+    a: 2
+  },
+  {
+    q: "The same eight cells (each 0.2 Ω, 2.2 V) are instead connected in parallel. Calculate the total internal resistance of the battery formed, using Rtotal = (1/n) × r.",
+    c: ["0.2 Ω", "0.1 Ω", "0.025 Ω", "1.6 Ω"],
+    a: 2
+  },
+  {
+    q: "A cell has internal resistance r = 0.02 Ω and e.m.f. E = 2.0 V. Using V = E - Ir, calculate its terminal p.d. when it delivers a current of 5 A.",
+    c: ["1.7 V", "1.8 V", "1.9 V", "2.0 V"],
+    a: 2
+  },
+  {
+    q: "For the same cell (E = 2.0 V, r = 0.02 Ω), calculate the terminal p.d. when it delivers a current of 50 A.",
+    c: ["0.5 V", "1.0 V", "1.5 V", "1.9 V"],
+    a: 1
+  },
+  {
+    q: "A battery of e.m.f. 12 V and internal resistance 0.01 Ω delivers a current of 100 A. Using V = E - Ir, calculate the terminal p.d.",
+    c: ["10 V", "11 V", "11.5 V", "12 V"],
+    a: 1
+  },
+  {
+    q: "The p.d. at the terminals of a battery is 25 V with no load, and 24 V when a load taking 10 A is connected. Using r = (E - V)/I, determine the internal resistance of the battery.",
+    c: ["0.05 Ω", "0.1 Ω", "0.5 Ω", "1.0 Ω"],
+    a: 1
+  }
+
+];
+
+
+
+
+ 
+function shareOnWhatsApp() {
+  const message = "https://generalhealthandwellness.com/category/questions-interactive-quiz-guide";
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = "whatsapp://send?text=" + encodedMessage;
+  window.open(whatsappUrl, '_blank');
+}
+
+let state = { idx: 0, answers: Array(QUESTIONS.length).fill(null) };
+const total = QUESTIONS.length;
+
+function renderQuestion() {
+  const area = document.getElementById('q-area');
+  const q = QUESTIONS[state.idx];
+  document.getElementById('q-num').textContent = state.idx + 1;
+  document.getElementById('q-total').textContent = total;
+  const progress = Math.round((state.idx / total) * 100);
+  document.getElementById('progress-bar').style.width = progress + '%';
+
+  area.innerHTML = '';
+  const qEl = document.createElement('div');
+  qEl.innerHTML = `<div class="question">${state.idx + 1}. ${q.q}</div>`;
+  const choices = document.createElement('div');
+  choices.className = 'choices';
+
+  q.c.forEach((choice, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'choice';
+    btn.textContent = String.fromCharCode(65 + i) + '. ' + choice;
+    if (state.answers[state.idx] === i) btn.classList.add('selected');
+
+    btn.addEventListener('click', () => {
+      state.answers[state.idx] = i;
+      document.querySelectorAll('.choice').forEach(el => el.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+
+    choices.appendChild(btn);
+  });
+
+  qEl.appendChild(choices);
+  area.appendChild(qEl);
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if (state.idx < total - 1) state.idx++;
+  renderQuestion();
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  if (state.idx > 0) state.idx--;
+  renderQuestion();
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const unanswered = state.answers.filter(a => a === null).length;
+  if (unanswered > 0) {
+    if (!confirm(`You have ${unanswered} unanswered questions. Submit anyway?`)) return;
+  }
+  gradeQuiz();
+});
+
+function gradeQuiz() {
+  clearInterval(timerInterval); // stop timer
+
+  let correct = 0;
+  const review = [];
+
+  for (let i = 0; i < total; i++) {
+    const user = state.answers[i];
+    const correctIdx = QUESTIONS[i].a;
+    const ok = user === correctIdx;
+    if (ok) correct++;
+    review.push({ i, q: QUESTIONS[i].q, choices: QUESTIONS[i].c, user, correctIdx, ok });
+  }
+
+  showResult(correct, review);
+}
+
+function showResult(score, review) {
+  document.getElementById('quiz-card').style.display = 'none';
+  const area = document.getElementById('result-area');
+  area.style.display = 'block';
+
+  document.getElementById('score-title').textContent = `You scored ${score} out of ${total}`;
+  const pct = Math.round((score / total) * 100);
+  document.getElementById('score-summary').textContent = `Percentage: ${pct}%`;
+
+  const list = document.getElementById('review-list');
+  list.innerHTML = '';
+
+  review.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'q-review';
+    const head = document.createElement('div');
+    head.style.fontWeight = '700';
+    head.textContent = `${item.i + 1}. ${item.q}`;
+    const userAns = document.createElement('div');
+    const ua = item.user === null ? 'No answer' : String.fromCharCode(65 + item.user) + '. ' + item.choices[item.user];
+    const ca = String.fromCharCode(65 + item.correctIdx) + '. ' + item.choices[item.correctIdx];
+    userAns.innerHTML = `<div><strong>Your answer:</strong> ${ua}</div><div><strong>Correct:</strong> ${ca}</div>`;
+    userAns.style.color = item.ok ? 'lightgreen' : '#fca5a5';
+    div.appendChild(head);
+    div.appendChild(userAns);
+    list.appendChild(div);
+  });
+}
+
+/* ---------------- TIMER ---------------- */
+let totalSeconds = 30* 60; 
+const countdownEl = document.getElementById('countdown-timer');
+let timerInterval = null;
+let warned = false;
+
+//  Warning sound
+function playWarningSound() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(800, ctx.currentTime);
+  osc.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.5);
+}
+
+function startCountdown() {
+  timerInterval = setInterval(() => {
+    let mins = Math.floor(totalSeconds / 60);
+    let secs = totalSeconds % 60;
+    countdownEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    totalSeconds--;
+
+    if (totalSeconds === 300 && !warned) { // 5 minutes left
+      playWarningSound();
+      alert("⚠️ 5 minutes remaining!");
+      warned = true;
+    }
+
+    if (totalSeconds < 0) {
+      clearInterval(timerInterval);
+      gradeQuiz();
+    }
+  }, 1000);
+}
+
+/* ---------------- LIGHT MODE ---------------- */
+const toggleBtn = document.createElement("button");
+toggleBtn.textContent = "☀️";
+toggleBtn.style.marginLeft = "10px";
+document.querySelector("header").appendChild(toggleBtn);
+
+toggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("light-mode");
+});
+
+/* Reset */
+document.getElementById('retryBtn')?.addEventListener('click', () => {
+  state = { idx: 0, answers: Array(total).fill(null) };
+  document.getElementById('result-area').style.display = 'none';
+  document.getElementById('quiz-card').style.display = 'block';
+  totalSeconds = 45 * 60;
+  warned = false;
+  renderQuestion();
+  startCountdown();
+});
+
+renderQuestion();
+window.addEventListener('load', startCountdown);
+</script>
+      
+</body>
+</html>
+
