@@ -1,7 +1,5 @@
 
 
-
-
 <!doctype html>
 
 <html lang="en">
@@ -62,10 +60,10 @@ body.light-mode button{background:#22c55e;color:white;}
   <div class="wrap">
     <header>
       <div>
-        <h1 class="h1">PHY 102 Interactive MCQs Quiz PRT2</h1>
-        <div class="meta">20 multiple-choice questions </div>
+        <h1 class="h1">PHY 102 MCQs Interactive MCQ Quiz PRT1</h1>
+        <div class="meta">56 multiple-choice questions </div>
  
-                 <span class="span">Timer: <div class="timer" id="countdown-timer">25:00</div></span>
+                 <span class="span">Timer: <div class="timer" id="countdown-timer">30:00</div></span>
       </div>
     </header><div class="card" id="quiz-card">
   <div class="progress" aria-hidden><i id="progress-bar"></i></div>
@@ -84,7 +82,7 @@ body.light-mode button{background:#22c55e;color:white;}
     </div>
   </div>
 
-  <div class="footer">Tip: Select an answer and press Next. You can review answers after submission.Quiz will submit automatically once timer turns zero.</div>
+  <div class="footer">Tip: Select an answer and press Next. You can review answers after submission. Quiz will submit automatically once timer turns zero.<br></div>
 </div>
 
 <div id="result-area" style="display:none" class="card">
@@ -105,7 +103,7 @@ body.light-mode button{background:#22c55e;color:white;}
   <h2>Designed by Sanctum</h2>
   </div>
    <script>
-       
+
        
        
        
@@ -220,8 +218,6 @@ const QUESTIONS = [
 
 
 
-
- 
 function shareOnWhatsApp() {
   const message = "https://generalhealthandwellness.com/category/questions-interactive-quiz-guide";
   const encodedMessage = encodeURIComponent(message);
@@ -300,6 +296,24 @@ function gradeQuiz() {
   showResult(correct, review);
 }
 
+const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLScq5wNi59xRM2ujpPIi1CZIT81UFoX5NPrNvfTmFNMYLvUUHw/formResponse";
+const FORM_ENTRY_SCORE = "entry.674447700";
+const FORM_ENTRY_PERCENT = "entry.1260887180";
+const FORM_ENTRY_TIMESTAMP = "entry.224827699";
+
+function sendScoreToAdmin(score, pct) {
+  const formData = new FormData();
+  formData.append(FORM_ENTRY_SCORE, `${score} / ${total}`);
+  formData.append(FORM_ENTRY_PERCENT, `${pct}%`);
+  formData.append(FORM_ENTRY_TIMESTAMP, new Date().toLocaleString());
+
+  fetch(GOOGLE_FORM_ACTION, {
+    method: "POST",
+    mode: "no-cors",
+    body: formData
+  }).catch(err => console.error("Score submission failed:", err));
+}
+
 function showResult(score, review) {
   document.getElementById('quiz-card').style.display = 'none';
   const area = document.getElementById('result-area');
@@ -308,6 +322,11 @@ function showResult(score, review) {
   document.getElementById('score-title').textContent = `You scored ${score} out of ${total}`;
   const pct = Math.round((score / total) * 100);
   document.getElementById('score-summary').textContent = `Percentage: ${pct}%`;
+
+  sendScoreToAdmin(score, pct);
+  window._lastReview = review;
+  window._lastScore = score;
+  window._lastPct = pct;
 
   const list = document.getElementById('review-list');
   list.innerHTML = '';
@@ -330,7 +349,7 @@ function showResult(score, review) {
 }
 
 /* ---------------- TIMER ---------------- */
-let totalSeconds = 20* 60; 
+let totalSeconds = 25* 60; 
 const countdownEl = document.getElementById('countdown-timer');
 let timerInterval = null;
 let warned = false;
@@ -376,12 +395,34 @@ toggleBtn.addEventListener("click", () => {
   document.body.classList.toggle("light-mode");
 });
 
+/* Export */
+document.getElementById('exportBtn')?.addEventListener('click', () => {
+  const review = window._lastReview || [];
+  const score = window._lastScore ?? 0;
+  const pct = window._lastPct ?? 0;
+  let text = `PHY 102 Quiz Results\nScore: ${score} / ${total} (${pct}%)\nDate: ${new Date().toLocaleString()}\n\n`;
+  review.forEach(item => {
+    const ua = item.user === null ? 'No answer' : String.fromCharCode(65 + item.user) + '. ' + item.choices[item.user];
+    const ca = String.fromCharCode(65 + item.correctIdx) + '. ' + item.choices[item.correctIdx];
+    text += `${item.i + 1}. ${item.q}\nYour answer: ${ua}\nCorrect answer: ${ca}\nResult: ${item.ok ? 'Correct' : 'Incorrect'}\n\n`;
+  });
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'phy102-quiz-results.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
 /* Reset */
 document.getElementById('retryBtn')?.addEventListener('click', () => {
   state = { idx: 0, answers: Array(total).fill(null) };
   document.getElementById('result-area').style.display = 'none';
   document.getElementById('quiz-card').style.display = 'block';
-  totalSeconds = 45 * 60;
+  totalSeconds = 30 * 60;
   warned = false;
   renderQuestion();
   startCountdown();
@@ -393,4 +434,3 @@ window.addEventListener('load', startCountdown);
       
 </body>
 </html>
-
