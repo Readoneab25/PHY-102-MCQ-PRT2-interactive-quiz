@@ -1,4 +1,8 @@
 
+
+
+
+
 <!doctype html>
 
 <html lang="en">
@@ -66,10 +70,11 @@ body.light-mode button{background:#22c55e;color:white;}
       </div>
     </header><div class="card" id="name-card">
   <div class="question">Enter your name to begin</div>
-  <input type="text" id="nameInput" placeholder="Enter your name to begin " style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#4338CA;color:#fff;font-size:16px;box-sizing:border-box" />
+  <input type="text" id="nameInput" placeholder="Full name" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:#4338CA;color:#fff;font-size:16px;box-sizing:border-box" />
   <div style="margin-top:12px">
     <button id="startQuizBtn">Start Quiz</button>
   </div>
+
 </div>
 
 <div class="card" id="quiz-card" style="display:none">
@@ -110,9 +115,6 @@ body.light-mode button{background:#22c55e;color:white;}
   <h2>Designed by Sanctum</h2>
   </div>
    <script>
-
-
-
 
 
 
@@ -222,6 +224,7 @@ const QUESTIONS = [
 ];
 
 
+
 function shareOnWhatsApp() {
   const message = "https://generalhealthandwellness.com/category/questions-interactive-quiz-guide";
   const encodedMessage = encodeURIComponent(message);
@@ -305,6 +308,8 @@ const FORM_ENTRY_SCORE = "entry.674447700";
 const FORM_ENTRY_PERCENT = "entry.1260887180";
 const FORM_ENTRY_TIMESTAMP = "entry.224827699";
 const FORM_ENTRY_NAME = "entry.1180765172";
+const FORM_ENTRY_QUIZNAME = "entry.1279383919";
+const QUIZ_NAME = "PHY 102 PRT 2"; // <-- change this per quiz if you reuse this file as a template
 
 function sendScoreToAdmin(score, pct) {
   const formData = new FormData();
@@ -312,6 +317,7 @@ function sendScoreToAdmin(score, pct) {
   formData.append(FORM_ENTRY_SCORE, `${score} / ${total}`);
   formData.append(FORM_ENTRY_PERCENT, `${pct}%`);
   formData.append(FORM_ENTRY_TIMESTAMP, new Date().toLocaleString());
+  formData.append(FORM_ENTRY_QUIZNAME, QUIZ_NAME);
 
   fetch(GOOGLE_FORM_ACTION, {
     method: "POST",
